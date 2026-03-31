@@ -1,0 +1,9 @@
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local / temp (add project-specific entries as needed)
