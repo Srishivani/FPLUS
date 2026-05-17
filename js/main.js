@@ -71,6 +71,110 @@
   }
 
   /* ==========================================================================
+     HSE Image Slideshow
+     ========================================================================== */
+  function initHseSlideshow() {
+    const slides = document.querySelectorAll('.hse-slide');
+    const items = document.querySelectorAll('.hse-item[data-hse-index]');
+    const dotsWrap = document.getElementById('hseDots');
+    const progressBar = document.querySelector('.hse-progress-bar');
+    const section = document.getElementById('hse');
+
+    if (!slides.length || !items.length) return;
+
+    const total = slides.length;
+    const INTERVAL = 4500;
+    let current = 0;
+    let timer = null;
+    let progressTimer = null;
+    let progressStart = 0;
+
+    function clearTimers() {
+      if (timer) clearInterval(timer);
+      if (progressTimer) cancelAnimationFrame(progressTimer);
+      timer = null;
+      progressTimer = null;
+    }
+
+    function animateProgress() {
+      if (!progressBar) return;
+      const elapsed = Date.now() - progressStart;
+      const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+      progressBar.style.width = pct + '%';
+      if (pct < 100) {
+        progressTimer = requestAnimationFrame(animateProgress);
+      }
+    }
+
+    function goTo(idx) {
+      if (progressTimer) cancelAnimationFrame(progressTimer);
+      current = ((idx % total) + total) % total;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === current);
+      });
+
+      items.forEach((item, i) => {
+        const on = i === current;
+        item.classList.toggle('active', on);
+        item.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll('.hse-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === current);
+          dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+        });
+      }
+
+      progressStart = Date.now();
+      if (progressBar) progressBar.style.width = '0%';
+      animateProgress();
+    }
+
+    function startAuto() {
+      clearTimers();
+      goTo(current);
+      timer = setInterval(() => {
+        goTo(current + 1);
+      }, INTERVAL);
+    }
+
+    if (dotsWrap) {
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'hse-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', 'HSE slide ' + (i + 1));
+        dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        dot.addEventListener('click', () => {
+          goTo(i);
+          startAuto();
+        });
+        dotsWrap.appendChild(dot);
+      }
+    }
+
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const idx = parseInt(item.getAttribute('data-hse-index'), 10);
+        if (!Number.isNaN(idx)) {
+          goTo(idx);
+          startAuto();
+        }
+      });
+    });
+
+    if (section) {
+      section.addEventListener('mouseenter', clearTimers);
+      section.addEventListener('mouseleave', startAuto);
+    }
+
+    startAuto();
+  }
+
+  /* ==========================================================================
      Scroll Reveal
      ========================================================================== */
   function initScrollReveal() {
@@ -194,6 +298,7 @@
      ========================================================================== */
   function init() {
     initCarousel();
+    initHseSlideshow();
     initScrollReveal();
     initForm();
     initContactFloat();
