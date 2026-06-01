@@ -1,0 +1,177 @@
+/* Google Translate — hide default widget UI, keep EN/عربي buttons */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple {
+  display: none !important;
+}
+
+.goog-te-banner-frame,
+.skiptranslate,
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* RTL — Arabic layout (Google Translate or manual) */
+html.translated-rtl,
+[dir="rtl"] {
+  direction: rtl;
+}
+
+html.translated-rtl body,
+[dir="rtl"] body {
+  font-family: 'Noto Sans Arabic', 'Open Sans', sans-serif;
+}
+
+html.translated-rtl .logo-text,
+html.translated-rtl .section-title,
+html.translated-rtl .hero-h1,
+[dir="rtl"] .logo-text,
+[dir="rtl"] .section-title,
+[dir="rtl"] .hero-h1,
+[dir="rtl"] .nav-cta,
+[dir="rtl"] .svc-t,
+[dir="rtl"] .pillar-t,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-family: 'Montserrat', 'Noto Sans Arabic', sans-serif;
+}
+
+/* Keep carousel slide direction LTR for correct transform math */
+html.translated-rtl .carousel-wrap,
+html.translated-rtl .carousel-track,
+[dir="rtl"] .carousel-wrap,
+[dir="rtl"] .carousel-track {
+  direction: ltr;
+}
+
+html.translated-rtl .carousel-track .svc,
+[dir="rtl"] .carousel-track .svc {
+  direction: rtl;
+}
+
+html.translated-rtl .svc-toast,
+[dir="rtl"] .svc-toast {
+  border-left: none;
+  border-right: 3px solid var(--teal);
+}
+
+html.translated-rtl .svc-t::after,
+[dir="rtl"] .svc-t::after {
+  left: auto;
+  right: 0;
+}
+
+html.translated-rtl .contact-float,
+[dir="rtl"] .contact-float {
+  right: auto;
+  left: 28px;
+  align-items: flex-start;
+}
+
+html.translated-rtl .contact-float-buttons,
+[dir="rtl"] .contact-float-buttons {
+  right: auto;
+  left: 0;
+}
+
+html.translated-rtl .contact-float-btn:hover,
+[dir="rtl"] .contact-float-btn:hover {
+  transform: translateX(4px);
+}
+
+html.translated-rtl .section-header-sub,
+[dir="rtl"] .section-header-sub {
+  text-align: left;
+}
+
+html.translated-rtl .vm[style*="border-left"],
+[dir="rtl"] .vm[style*="border-left"] {
+  border-left: none !important;
+  border-right: 1px solid var(--ash-dark);
+}
+
+html.translated-rtl nav,
+[dir="rtl"] nav {
+  flex-wrap: wrap;
+  gap: 8px;
+  height: auto;
+  min-height: 52px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+html.translated-rtl .lang-switch,
+[dir="rtl"] .lang-switch {
+  margin-inline-end: 8px;
+}
+
+html.translated-rtl .svc-more::after,
+[dir="rtl"] .svc-more::after {
+  content: ' ←';
+}
+
+html.translated-rtl .svc-more,
+[dir="rtl"] .svc-more {
+  direction: rtl;
+}
+
+/* Language switcher */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-end: 12px;
+  padding: 3px;
+  background: var(--steel-100);
+  border: 1px solid var(--steel-300);
+  border-radius: 6px;
+}
+
+.lang-switch-btn {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lang-switch-btn:hover {
+  color: var(--steel-900);
+}
+
+.lang-switch-btn.active {
+  background: var(--teal);
+  color: var(--white);
+}
+
+.lang-switch-btn[lang="ar"] {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+@media (max-width: 900px) {
+  .lang-switch {
+    margin-inline-end: 8px;
+  }
+  .lang-switch-btn {
+    padding: 5px 8px;
+  }
+}

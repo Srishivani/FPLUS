@@ -22,7 +22,9 @@
     const VISIBLE = 3;
     const total = cards.length;
     const pages = Math.max(1, total - VISIBLE + 1);
+    const AUTO_INTERVAL = 6500;
     let current = 0;
+    let autoTimer = null;
 
     function goTo(idx) {
       current = Math.max(0, Math.min(idx, pages - 1));
@@ -42,13 +44,31 @@
       dotsWrap.appendChild(d);
     }
 
-    if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+    function resetAuto() {
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        goTo((current + 1) % pages);
+      }, AUTO_INTERVAL);
+    }
 
-    // Drag support
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        goTo(current - 1);
+        resetAuto();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        goTo(current + 1);
+        resetAuto();
+      });
+    }
+
+    // Drag support (ignore drags that start on a link click)
     let startX = 0;
     let drag = false;
     track.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('a')) return;
       startX = e.clientX;
       drag = true;
       track.setPointerCapture(e.pointerId);
@@ -59,15 +79,21 @@
       const delta = startX - e.clientX;
       if (Math.abs(delta) > 60) {
         delta > 0 ? goTo(current + 1) : goTo(current - 1);
+        resetAuto();
       }
     });
 
     window.addEventListener('resize', () => goTo(current));
 
-    // Auto-advance every 3 seconds
-    setInterval(() => {
-      goTo((current + 1) % pages);
-    }, 3000);
+    const wrap = track.closest('.carousel-wrap');
+    if (wrap) {
+      wrap.addEventListener('mouseenter', () => {
+        if (autoTimer) clearInterval(autoTimer);
+      });
+      wrap.addEventListener('mouseleave', resetAuto);
+    }
+
+    resetAuto();
   }
 
   /* ==========================================================================
@@ -240,7 +266,7 @@
       const location = document.getElementById('f-location').value.trim();
       const msg = document.getElementById('f-msg').value.trim();
 
-      const subject = encodeURIComponent('Consultation / Repair / Install — ' + service);
+      const subject = encodeURIComponent('Fitout / Maintenance Enquiry — ' + service);
       const body = encodeURIComponent(
         'Name: ' + name + '\n' +
         (company ? 'Company: ' + company + '\n' : '') +
@@ -294,10 +320,173 @@
   }
 
   /* ==========================================================================
+     Core Services sidecar — one panel per master category
+     ========================================================================== */
+  function initOneMasterSidecar(panel) {
+    const slides = panel.querySelectorAll('.svc-core-slide');
+    const items = panel.querySelectorAll('.svc-core-item[data-svc-index]');
+    const dotsWrap = panel.querySelector('.svc-core-slide-dots');
+    const progressBar = panel.querySelector('.svc-core-progress-bar');
+    const detailLink = panel.querySelector('.svc-core-detail-link');
+
+    if (!slides.length || !items.length) return;
+
+    const total = slides.length;
+    const INTERVAL = 5000;
+    let current = 0;
+    let timer = null;
+    let progressTimer = null;
+    let progressStart = 0;
+
+    function clearTimers() {
+      if (timer) clearInterval(timer);
+      if (progressTimer) cancelAnimationFrame(progressTimer);
+      timer = null;
+      progressTimer = null;
+    }
+
+    function animateProgress() {
+      if (!progressBar) return;
+      const elapsed = Date.now() - progressStart;
+      const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+      progressBar.style.width = pct + '%';
+      if (pct < 100) progressTimer = requestAnimationFrame(animateProgress);
+    }
+
+    function updateDetailLink(idx) {
+      if (!detailLink) return;
+      const item = items[idx];
+      const href = item && item.getAttribute('data-svc-href');
+      if (href) {
+        detailLink.href = href;
+        const title = item.querySelector('.svc-core-item-t');
+        detailLink.textContent =
+          'View ' + (title ? title.textContent.trim() : 'service') + ' →';
+      }
+    }
+
+    function goTo(idx) {
+      if (progressTimer) cancelAnimationFrame(progressTimer);
+      current = ((idx % total) + total) % total;
+
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      items.forEach((item, i) => {
+        const on = i === current;
+        item.classList.toggle('active', on);
+        item.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll('.svc-core-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === current);
+          dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+        });
+      }
+
+      updateDetailLink(current);
+      progressStart = Date.now();
+      if (progressBar) progressBar.style.width = '0%';
+      animateProgress();
+    }
+
+    function startAuto() {
+      clearTimers();
+      goTo(current);
+      timer = setInterval(() => goTo(current + 1), INTERVAL);
+    }
+
+    if (dotsWrap && !dotsWrap.dataset.built) {
+      dotsWrap.dataset.built = '1';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'svc-core-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+        dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        dot.addEventListener('click', () => {
+          goTo(i);
+          startAuto();
+        });
+        dotsWrap.appendChild(dot);
+      }
+    }
+
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const idx = parseInt(item.getAttribute('data-svc-index'), 10);
+        if (!Number.isNaN(idx)) {
+          goTo(idx);
+          startAuto();
+        }
+      });
+      item.addEventListener('dblclick', () => {
+        const href = item.getAttribute('data-svc-href');
+        if (href) window.location.href = href;
+      });
+    });
+
+    panel.addEventListener('mouseenter', clearTimers);
+    panel.addEventListener('mouseleave', startAuto);
+
+    startAuto();
+  }
+
+  function initSvcCoreSidecar() {
+    document.querySelectorAll('.svc-master-panel').forEach(initOneMasterSidecar);
+  }
+
+  /* ==========================================================================
+     Hero headline flip
+     ========================================================================== */
+  function initHeroFlip() {
+    const flip = document.getElementById('heroFlip');
+    if (!flip) return;
+
+    const slides = flip.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-flip-dot');
+    if (slides.length < 2) return;
+
+    let current = 0;
+    let timer = null;
+    const INTERVAL = 6000;
+
+    function goTo(idx) {
+      current = (idx + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function resetTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), INTERVAL);
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        goTo(parseInt(dot.getAttribute('data-hero-slide'), 10));
+        resetTimer();
+      });
+    });
+
+    const hero = document.getElementById('hero');
+    if (hero) {
+      hero.addEventListener('mouseenter', () => {
+        if (timer) clearInterval(timer);
+      });
+      hero.addEventListener('mouseleave', resetTimer);
+    }
+
+    resetTimer();
+  }
+
+  /* ==========================================================================
      Init
      ========================================================================== */
   function init() {
     initCarousel();
+    initSvcCoreSidecar();
+    initHeroFlip();
     initHseSlideshow();
     initScrollReveal();
     initForm();

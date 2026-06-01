@@ -1,0 +1,43 @@
+{
+  "name": "FPLUS Technical Services L.L.C",
+  "alternateName": ["FPLUS", "F Plus Technical Services"],
+  "legalName": "FPLUS Technical Services L.L.C",
+  "url": "https://fplus.ae",
+  "telephone": "+971507204645",
+  "telephoneDisplay": "+971 50 720 4645",
+  "email": "Faiyazqu123@gmail.com",
+  "emailRecommended": "info@fplus.ae",
+  "address": {
+    "addressLocality": "Dubai",
+    "addressRegion": "Dubai",
+    "addressCountry": "AE"
+  },
+  "geo": {
+    "latitude": 25.2048,
+    "longitude": 55.2708
+  },
+  "areaServed": [
+    "Dubai",
+    "Dubai Marina",
+    "JLT",
+    "Jumeirah Lake Towers",
+    "Business Bay",
+    "Downtown Dubai",
+    "JVC",
+    "Jumeirah Village Circle",
+    "Deira",
+    "Bur Dubai",
+    "Al Barsha",
+    "Palm Jumeirah",
+    "Sharjah",
+    "Abu Dhabi",
+    "United Arab Emirates"
+  ],
+  "license": {
+    "issuer": "Department of Economy and Tourism, Dubai",
+    "number": "1551959",
+    "type": "General Maintenance and Technical Services"
+  },
+  "sameAs": [],
+  "description": "Licensed Dubai contractor for AC repair, HVAC, plumbing, electrical, interior fit-out, building maintenance AMC, and project consultancy across the UAE."
+}
