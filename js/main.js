@@ -7,6 +7,8 @@
 (function () {
   'use strict';
 
+  document.documentElement.classList.add('js');
+
   /* ==========================================================================
      Services Carousel
      ========================================================================== */
@@ -204,16 +206,28 @@
      Scroll Reveal
      ========================================================================== */
   function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    function revealInView(el) {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      return rect.top < vh * 0.92 && rect.bottom > 0;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) e.target.classList.add('on');
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08, rootMargin: '0px 0px -4% 0px' }
     );
 
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    reveals.forEach((el) => {
+      if (revealInView(el)) el.classList.add('on');
+      observer.observe(el);
+    });
   }
 
   /* ==========================================================================

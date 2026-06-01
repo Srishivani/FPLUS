@@ -1,4 +1,4 @@
-/* Google Translate — hide default widget UI, keep EN/عربي buttons */
+/* Google Translate — hide widget UI; prevent body top gap on production */
 #google_translate_element,
 .goog-te-gadget,
 .goog-te-gadget-simple {
@@ -6,14 +6,36 @@
 }
 
 .goog-te-banner-frame,
-.skiptranslate,
-iframe.goog-te-banner-frame {
+iframe.goog-te-banner-frame,
+body > .skiptranslate,
+.skiptranslate iframe {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  width: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+/* GT sets body { top: 40px; position: relative } — breaks layout & fixed nav */
+html,
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 body {
-  top: 0 !important;
   position: static !important;
+  min-height: 100vh;
+}
+
+nav {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 .goog-text-highlight {

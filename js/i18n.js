@@ -89,6 +89,17 @@
     trySet();
   }
 
+  function resetTranslateLayout() {
+    document.documentElement.style.setProperty('top', '0', 'important');
+    document.body.style.setProperty('top', '0', 'important');
+    document.body.style.setProperty('margin-top', '0', 'important');
+    document.body.style.setProperty('padding-top', '0', 'important');
+    document.querySelectorAll('iframe.goog-te-banner-frame, .skiptranslate').forEach((el) => {
+      el.style.setProperty('display', 'none', 'important');
+      el.style.setProperty('height', '0', 'important');
+    });
+  }
+
   function updateUi(lang) {
     const isAr = lang === 'ar';
     document.documentElement.lang = isAr ? 'ar' : 'en';
@@ -101,6 +112,8 @@
       btn.classList.toggle('active', active);
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+
+    resetTranslateLayout();
   }
 
   function injectGtContainer() {
@@ -157,19 +170,19 @@
 
     updateUi(lang);
 
-    window.addEventListener('fplus:gtready', () => setGtLang(lang), { once: true });
+    window.addEventListener('fplus:gtready', () => {
+      setGtLang(lang);
+      resetTranslateLayout();
+    }, { once: true });
 
-    const observer = new MutationObserver(() => {
-      const html = document.documentElement;
-      if (html.classList.contains('translated-rtl') || html.getAttribute('lang') === 'ar') {
-        updateUi('ar');
-      } else if (html.classList.contains('translated-ltr') && getGtSelect() && getGtSelect().value === '') {
-        updateUi('en');
-      }
+    const observer = new MutationObserver(resetTranslateLayout);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['style', 'class']
     });
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class', 'lang', 'dir']
+      attributeFilter: ['class', 'style']
     });
   }
 

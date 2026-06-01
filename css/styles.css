@@ -2309,16 +2309,29 @@ footer {
   color: var(--text-dim);
 }
 
-/* --- Scroll Reveal --- */
+/* --- Scroll Reveal (visible by default; animate only when JS runs) --- */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal:not(.on) {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.reveal.on {
+html.js .reveal.on {
   opacity: 1;
   transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal:not(.on) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .d1 { transition-delay: 0.1s; }

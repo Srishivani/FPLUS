@@ -27,8 +27,7 @@ hse-equipment.png
 
 BRAND
 -----
-logo.png                 → Nav + hero watermark (ornate F mark)
-favicon.png
+logo.png                 → Nav, favicon & apple-touch-icon
 logo-icon-house.png    → Legacy (replaced by logo.png)
 
 GALLERY

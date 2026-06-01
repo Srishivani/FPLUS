@@ -3,9 +3,9 @@ $services = @(
     slug = 'interior-fitout-dubai'
     title = 'Interior Fitout Dubai | Offices, Retail & Villas | FPLUS'
     h1 = 'Interior Fitout in Dubai'
-    kicker = 'Fitout Works · Dubai & Sharjah'
+    kicker = 'Fitout Works &middot; Dubai &amp; Sharjah'
     img = 'service-fitout.png'
-    lead = 'Complete interior fitout for offices, retail units and villas — layout, finishes and MEP coordination from one licensed contractor.'
+    lead = 'Complete interior fitout for offices, retail units and villas &mdash; layout, finishes and MEP coordination from one licensed contractor.'
     wa = 'Interior%20fitout%20Dubai%20-%20FPLUS'
     bullets = @(
       'Office and retail shop fitout',
@@ -18,7 +18,7 @@ $services = @(
     slug = 'gypsum-partitioning-dubai'
     title = 'Gypsum & Partitioning Dubai | FPLUS Technical Services'
     h1 = 'Gypsum & Partitioning in Dubai'
-    kicker = 'Fitout Works · Partition walls'
+    kicker = 'Fitout Works &middot; Partition walls'
     img = 'service-fitout.png'
     lead = 'Gypsum board partitions, acoustic walls and light internal divisions for offices, clinics and homes across Dubai and Sharjah.'
     wa = 'Gypsum%20partitioning%20Dubai%20-%20FPLUS'
@@ -33,7 +33,7 @@ $services = @(
     slug = 'ceilings-flooring-dubai'
     title = 'Ceilings & Flooring Dubai | FPLUS Fitout'
     h1 = 'Ceilings & Flooring in Dubai'
-    kicker = 'Fitout Works · Finishes'
+    kicker = 'Fitout Works &middot; Finishes'
     img = 'hero-panel-bottom.png'
     lead = 'Suspended ceilings, gypsum bulkheads, tiling, vinyl and wooden flooring for commercial and residential properties.'
     wa = 'Ceilings%20and%20flooring%20Dubai%20-%20FPLUS'
@@ -48,7 +48,7 @@ $services = @(
     slug = 'custom-carpentry-dubai'
     title = 'Custom Carpentry Dubai | Joinery & Built-ins | FPLUS'
     h1 = 'Custom Carpentry in Dubai'
-    kicker = 'Fitout Works · Joinery'
+    kicker = 'Fitout Works &middot; Joinery'
     img = 'service-fitout.png'
     lead = 'Bespoke joinery, wardrobes, reception desks and fitted furniture for offices, retail and villas.'
     wa = 'Custom%20carpentry%20Dubai%20-%20FPLUS'
@@ -80,7 +80,7 @@ $services = @(
     h1 = 'Kitchen Renovation in Dubai'
     kicker = 'Renovation & Upgrades'
     img = 'hero-panel-bottom.png'
-    lead = 'Full kitchen upgrades — layout, cabinetry, countertops, appliances and MEP for villas and apartments.'
+    lead = 'Full kitchen upgrades &mdash; layout, cabinetry, countertops, appliances and MEP for villas and apartments.'
     wa = 'Kitchen%20renovation%20Dubai%20-%20FPLUS'
     bullets = @(
       'Kitchen layout and design coordination',
@@ -110,7 +110,7 @@ $services = @(
     h1 = 'Full Villa Renovation in Dubai'
     kicker = 'Renovation & Upgrades'
     img = 'about-team.png'
-    lead = 'Turnkey villa renovation — structure, MEP, interiors and external works with single-contractor accountability.'
+    lead = 'Turnkey villa renovation &mdash; structure, MEP, interiors and external works with single-contractor accountability.'
     wa = 'Villa%20renovation%20Dubai%20-%20FPLUS'
     bullets = @(
       'Whole-villa interior and exterior scope',
@@ -128,13 +128,14 @@ $template = @'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{TITLE}}</title>
-  <meta name="description" content="{{LEAD}} Licensed FPLUS · DET 1551959 · +971 50 720 4645.">
+  <meta name="description" content="{{LEAD}} Licensed FPLUS &middot; DET 1551959 &middot; +971 50 720 4645.">
   <link rel="canonical" href="https://fplus.ae/services/{{SLUG}}.html">
-  <link rel="icon" href="../assets/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/logo.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link href="../css/styles.css" rel="stylesheet">
-  <link href="../css/service-page.css" rel="stylesheet">
-  <link href="../css/rtl.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/service-page.css" rel="stylesheet">
+  <link href="/css/rtl.css" rel="stylesheet">
 </head>
 <body class="svc-page">
   <nav>
@@ -155,7 +156,7 @@ $template = @'
         </div>
       </div>
       <div class="svc-hero-visual">
-        <img src="../assets/{{IMG}}" alt="{{H1}} — FPLUS Technical Services" width="600" height="450">
+        <img src="../assets/{{IMG}}" alt="{{H1}} &mdash; FPLUS Technical Services" width="600" height="450">
       </div>
     </div>
   </header>
@@ -171,15 +172,15 @@ $template = @'
     </div>
     <div class="svc-contact-cta">
       <h2>Request a quote</h2>
-      <p>FPLUS Technical Services L.L.C — Dubai &amp; Sharjah · License 1551959</p>
+      <p>FPLUS Technical Services L.L.C &mdash; Dubai &amp; Sharjah &middot; License 1551959</p>
       <a class="svc-btn-primary" href="https://wa.me/971507204645?text={{WA}}" target="_blank" rel="noopener">WhatsApp</a>
       <a class="svc-btn-secondary" href="../index.html#contact">Contact form</a>
     </div>
   </main>
-  <footer><div class="fc">© 2025 FPLUS · {{H1}} · Lic. 1551959</div></footer>
+  <footer><div class="fc">&copy; 2025 FPLUS &middot; {{H1}} &middot; Lic. 1551959</div></footer>
   <div class="svc-sticky-mobile"><a class="svc-sticky-call" href="tel:+971507204645">Call</a><a class="svc-sticky-wa" href="https://wa.me/971507204645" target="_blank" rel="noopener">WhatsApp</a></div>
-  <script src="../js/i18n.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>
 '@
@@ -197,6 +198,7 @@ foreach ($s in $services) {
   $html = $html.Replace('{{WA}}', $s.wa)
   $html = $html.Replace('{{BULLETS}}', $bullets)
   $path = Join-Path $outDir ($s.slug + '.html')
-  Set-Content -Path $path -Value $html -Encoding UTF8
+  $utf8 = New-Object System.Text.UTF8Encoding $false
+  [IO.File]::WriteAllText($path, $html, $utf8)
   Write-Host "Wrote $path"
 }
