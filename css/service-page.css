@@ -1,4 +1,9 @@
 /* Service landing pages — extends styles.css */
+.svc-hero-visual .img-placeholder {
+  width: 100%;
+  min-height: 300px;
+  aspect-ratio: 4 / 3;
+}
 .svc-page-hero {
   padding: 7rem 2rem 3rem;
   background: var(--brand-gradient-soft);
@@ -446,9 +451,11 @@
   box-shadow: 0 8px 24px var(--teal-glow);
 }
 .services-hub-card-img {
+  position: relative;
   aspect-ratio: 16/10;
   background-size: cover;
   background-position: center;
+  background-color: var(--steel-100);
 }
 .services-hub-card h3 {
   font-family: var(--font-heading);
