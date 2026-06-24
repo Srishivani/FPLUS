@@ -279,6 +279,12 @@
 }
 @media (max-width: 900px) { .svc-gallery { grid-template-columns: repeat(2, 1fr); } }
 .svc-gallery-item { border-radius: 6px; overflow: hidden; border: 1px solid var(--steel-300); }
+.svc-gallery-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
 .svc-gallery-item .svc-placeholder { aspect-ratio: 1; min-height: 140px; }
 .svc-gallery-cap {
   padding: 0.5rem 0.75rem;
