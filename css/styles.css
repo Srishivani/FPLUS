@@ -762,6 +762,10 @@ nav {
   z-index: 1;
 }
 
+.svc-core-slide--placeholder {
+  background-image: var(--brand-gradient) !important;
+}
+
 .svc-core-slide-tag {
   position: absolute;
   left: 24px;

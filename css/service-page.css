@@ -458,6 +458,9 @@
   background-position: center;
   background-color: var(--steel-100);
 }
+.services-hub-card-img--placeholder {
+  background-image: var(--brand-gradient) !important;
+}
 .services-hub-card h3 {
   font-family: var(--font-heading);
   font-size: 0.95rem;
